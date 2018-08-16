@@ -1,19 +1,18 @@
-enum Category : uint16_t {
-    Spaces,            Other,             Action_name_begin,
-    Action_name_body,  Delimiters,        Dollar,
-    Backslash,         Opened_square_br,  After_colon,
-    After_backslash,   Begin_expr,        End_expr,
-    Hat
+enum class Category : uint16_t{
+    Spaces, Other, Delimiters
 };
 
 /*
- * It happens that in std::map<K,V> the key type is integer, and a lot of keys with the same corresponding values.
- * If such a map must be a generated constant, then this map can be optimized. Namely, iterating through a map using
- * range-based for, we will build a std::vector<std::pair<K, V>>.
- * Then we group pairs std::pair<K, V> in pairs in the form (segment, a value of type V), where 'segment' is a struct
- * consisting of lower bound and upper bound. Next, we permute the grouped pair in the such way that in order to search
- * for in the array of the resulting values we can use the algorithm from the answer to exercise 6.2.24 of the book
- * Knuth D.E. The art of computer programming. Volume 3. Sorting and search. --- 2nd ed. --- Addison-Wesley, 1998.
+ * It happens that in std::map<K,V> the key type is integer, and a lot of keys with the
+ * same corresponding values. If such a map must be a generated constant, then this map
+ * can be optimized. Namely, iterating through a map using range-based for, we will
+ * build a std::vector<std::pair<K, V>>. Then we group pairs std::pair<K, V> in pairs
+ * in the form (segment, a value of type V), where 'segment' is a struct consisting of
+ * lower bound and upper bound. Next, we permute the grouped pair in the such way that
+ * in order to search for in the array of the resulting values we can use the algorithm
+ * from the answer to exercise 6.2.24 of the book
+ * Knuth D.E. The art of computer programming. Volume 3. Sorting and search. ---
+ * 2nd ed. --- Addison-Wesley, 1998.
 */
 
 #define RandomAccessIterator typename
@@ -49,7 +48,7 @@ std::pair<bool, size_t> knuth_find(I it_begin, I it_end, K key)
     std::pair<bool, size_t> result = {false, 0};
     size_t                  i      = 1;
     size_t                  n      = it_end - it_begin;
-    while (i <= n) {
+    while(i <= n){
         const auto& curr        = it_begin[i - 1];
         const auto& curr_bounds = curr.bounds;
         if(key < curr_bounds.lower_bound){
@@ -63,27 +62,20 @@ std::pair<bool, size_t> knuth_find(I it_begin, I it_end, K key)
     }
     return result;
 }
+
 static const Segment_with_value<char32_t, uint64_t> categories_table[] = {
-    {{U'b', U'b'},  268},  {{U'R', U'R'},  268},  {{U'p', U'q'},   12},    
-    {{U'?', U'?'},  528},  {{U']', U']'},  512},  {{U'l', U'l'},  268},    
-    {{U'y', U'z'},   12},  {{U'(', U'+'},  528},  {{U'L', U'L'},  268},    
-    {{U'[', U'['},  640},  {{U'_', U'_'},   12},  {{U'd', U'd'},  268},    
-    {{U'n', U'n'},  780},  {{U's', U'w'},   12},  {{U'|', U'|'},  528},    
-    {{U'"', U'"'},  512},  {{U'0', U'9'},    8},  {{U'A', U'K'},   12},    
-    {{U'M', U'Q'},   12},  {{U'S', U'Z'},   12},  {{U'\\', U'\\'},  576},  
-    {{U'^', U'^'}, 4608},  {{U'a', U'a'},   12},  {{U'c', U'c'},   12},    
-    {{U'e', U'k'},   12},  {{U'm', U'm'},   12},  {{U'o', U'o'},  268},    
-    {{U'r', U'r'},  268},  {{U'x', U'x'},  268},  {{U'{', U'{'}, 1552},    
-    {{U'}', U'}'}, 2576},  {{   1,   32},    1},  {{U'$', U'$'},  544}
+    {{U'\?'  , U'\?'  },  4    },  {{U'('   , U'+'   },  4    },  {{U'{'   , U'}'   },  4    },  
+    {{U'\x01', U' '   },  1    }
 };
 
-static const size_t num_of_elems_in_categories_table = 33;
+static constexpr size_t num_of_elems_in_categories_table = 4;
 
-uint64_t get_categories_set(char32_t c){
+uint64_t get_categories_set(char32_t c)
+{
     auto t = knuth_find(categories_table,
                         categories_table + num_of_elems_in_categories_table,
                         c);
-
-    return t.first ? categories_table[t.second].value : (1ULL << Other)
+    return t.first ? categories_table[t.second].value :
+                     1ULL << static_cast<uint64_t>(Category::Other);
 }
 
