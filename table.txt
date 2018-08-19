@@ -1,5 +1,6 @@
 enum class Category : uint16_t{
-    Spaces, Other, Delimiters
+    Spaces,    Other,          Delimiters,
+    Backslash, After_backslash
 };
 
 /*
@@ -64,11 +65,13 @@ std::pair<bool, size_t> knuth_find(I it_begin, I it_end, K key)
 }
 
 static const Segment_with_value<char32_t, uint64_t> categories_table[] = {
-    {{U'\?'  , U'\?'  },  4    },  {{U'('   , U'+'   },  4    },  {{U'{'   , U'}'   },  4    },  
-    {{U'\x01', U' '   },  1    }
+    {{U'\\'  , U'\\'  },  24   },  {{U'('   , U'+'   },  20   },  {{U'n'   , U'n'   },  16   },  
+    {{U'\"'  , U'\"'  },  16   },  {{U'['   , U'['   },  16   },  {{U']'   , U'^'   },  16   },  
+    {{U'{'   , U'}'   },  20   },  {{U'\x01', U' '   },  1    },  {{U'$'   , U'%'   },  16   },  
+    {{U'\?'  , U'\?'  },  20   }
 };
 
-static constexpr size_t num_of_elems_in_categories_table = 4;
+static constexpr size_t num_of_elems_in_categories_table = 10;
 
 uint64_t get_categories_set(char32_t c)
 {
