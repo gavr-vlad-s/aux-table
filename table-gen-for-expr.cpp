@@ -27,8 +27,8 @@
 #include "format.h"
 
 enum Category : uint16_t {
-    Spaces,    Other,          Delimiters,
-    Backslash, After_backslash
+    Spaces,    Other,           Delimiters,
+    Backslash, After_backslash, Opened_square_br
 };
 
 
@@ -83,7 +83,7 @@ static void fill_table(){
 //     add_category(after_colon_chars, After_colon);
     add_category(after_backslash_chars, After_backslash);
 //     add_category(U"$", Dollar);
-//     add_category(U"[", Opened_square_br);
+    add_category(U"[", Opened_square_br);
     add_category(U"\\", Backslash);
 //     add_category(U"{", Begin_expr);
 //     add_category(U"}", End_expr);
@@ -150,8 +150,8 @@ static std::string show_table_elem(const Segment_with_value<char32_t, uint16_t>&
 }
 
 static const std::string table_fmt = R"~(enum class Category : uint16_t{{
-    Spaces,    Other,          Delimiters,
-    Backslash, After_backslash
+    Spaces,    Other,           Delimiters,
+    Backslash, After_backslash, Opened_square_br
 }};
 
 /*
@@ -244,7 +244,7 @@ std::string show_table()
 
     Format f;
     f.indent                 = 4;
-    f.number_of_columns      = 3;
+    f.number_of_columns      = 2;
     f.spaces_between_columns = 2;
 
     auto table_body          =  string_list_to_columns(elems, f);
