@@ -26,9 +26,10 @@
 #include "list_to_columns.h"
 #include "format.h"
 
-enum Category : uint16_t {
-    Spaces,    Other,           Delimiters,
-    Backslash, After_backslash, Opened_square_br
+enum Category : uint16_t{
+    Spaces,     Other,           Delimiters,
+    Backslash,  After_backslash, Opened_square_br,
+    After_colon
 };
 
 
@@ -45,7 +46,7 @@ enum Category : uint16_t {
 // static const char32_t* action_name_body_chars =
 //     U"_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 static const char32_t* delimiters_chars = U"{}()|*+?";
-// static const char32_t* after_colon_chars = U"LRbdlnorx";
+static const char32_t* after_colon_chars = U"LRbdlnorx";
 static const char32_t* after_backslash_chars = U"%^\"(){}[]n$|*+\?\\";
 
 std::map<char32_t, uint16_t> table;
@@ -80,7 +81,7 @@ static void fill_table(){
 //     add_category(action_name_begin_chars, Action_name_begin);
 //     add_category(action_name_body_chars, Action_name_body);
     add_category(delimiters_chars, Delimiters);
-//     add_category(after_colon_chars, After_colon);
+    add_category(after_colon_chars, After_colon);
     add_category(after_backslash_chars, After_backslash);
 //     add_category(U"$", Dollar);
     add_category(U"[", Opened_square_br);
@@ -150,8 +151,9 @@ static std::string show_table_elem(const Segment_with_value<char32_t, uint16_t>&
 }
 
 static const std::string table_fmt = R"~(enum class Category : uint16_t{{
-    Spaces,    Other,           Delimiters,
-    Backslash, After_backslash, Opened_square_br
+    Spaces,     Other,           Delimiters,
+    Backslash,  After_backslash, Opened_square_br,
+    After_colon
 }};
 
 /*
