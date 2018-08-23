@@ -27,9 +27,9 @@
 #include "format.h"
 
 enum Category : uint16_t{
-    Spaces,     Other,           Delimiters,
-    Backslash,  After_backslash, Opened_square_br,
-    After_colon
+    Spaces,      Other,           Delimiters,
+    Backslash,   After_backslash, Opened_square_br,
+    After_colon, Hat
 };
 
 
@@ -88,7 +88,7 @@ static void fill_table(){
     add_category(U"\\", Backslash);
 //     add_category(U"{", Begin_expr);
 //     add_category(U"}", End_expr);
-//     add_category(U"^", Hat);
+    add_category(U"^", Hat);
 }
 
 template<RandomAccessIterator DestIt, RandomAccessIterator SrcIt, Callable F>
@@ -151,9 +151,9 @@ static std::string show_table_elem(const Segment_with_value<char32_t, uint16_t>&
 }
 
 static const std::string table_fmt = R"~(enum class Category : uint16_t{{
-    Spaces,     Other,           Delimiters,
-    Backslash,  After_backslash, Opened_square_br,
-    After_colon
+    Spaces,      Other,           Delimiters,
+    Backslash,   After_backslash, Opened_square_br,
+    After_colon, Hat
 }};
 
 /*
