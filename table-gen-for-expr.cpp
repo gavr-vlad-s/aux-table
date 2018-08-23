@@ -30,7 +30,7 @@ enum Category : uint16_t{
     Spaces,      Other,           Delimiters,
     Backslash,   After_backslash, Opened_square_br,
     After_colon, Hat,             Dollar,
-    Id_begin,    Id_body
+    Id_begin,    Id_body,         Percent
 };
 
 static const char32_t* id_begin_chars =
@@ -76,9 +76,10 @@ static void fill_table(){
     add_category(after_colon_chars,     After_colon);
     add_category(after_backslash_chars, After_backslash);
     add_category(U"$",                  Dollar);
+    add_category(U"%",                  Percent);
     add_category(U"[",                  Opened_square_br);
     add_category(U"\\",                 Backslash);
-    add_category(U"^", Hat);
+    add_category(U"^",                  Hat);
 }
 
 template<RandomAccessIterator DestIt, RandomAccessIterator SrcIt, Callable F>
@@ -144,7 +145,7 @@ static const std::string table_fmt = R"~(enum class Category : uint16_t{{
     Spaces,      Other,           Delimiters,
     Backslash,   After_backslash, Opened_square_br,
     After_colon, Hat,             Dollar,
-    Id_begin,    Id_body
+    Id_begin,    Id_body,         Percent
 }};
 
 /*

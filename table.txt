@@ -2,7 +2,7 @@ enum class Category : uint16_t{
     Spaces,      Other,           Delimiters,
     Backslash,   After_backslash, Opened_square_br,
     After_colon, Hat,             Dollar,
-    Id_begin,    Id_body
+    Id_begin,    Id_body,         Percent
 };
 
 /*
@@ -75,7 +75,7 @@ static const Segment_with_value<char32_t, uint64_t> categories_table[] = {
     {{U']'   , U']'   },  16   },  {{U'b'   , U'b'   },  1600 },  
     {{U'l'   , U'l'   },  1600 },  {{U'p'   , U'q'   },  1536 },  
     {{U'y'   , U'z'   },  1536 },  {{U'\"'  , U'\"'  },  16   },  
-    {{U'%'   , U'%'   },  16   },  {{U'0'   , U'9'   },  1024 },  
+    {{U'%'   , U'%'   },  2064 },  {{U'0'   , U'9'   },  1024 },  
     {{U'A'   , U'K'   },  1536 },  {{U'M'   , U'Q'   },  1536 },  
     {{U'S'   , U'Z'   },  1536 },  {{U'\\'  , U'\\'  },  24   },  
     {{U'^'   , U'^'   },  144  },  {{U'a'   , U'a'   },  1536 },  
