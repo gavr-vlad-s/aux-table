@@ -1,7 +1,8 @@
 enum class Category : uint16_t{
     Spaces,      Other,           Delimiters,
     Backslash,   After_backslash, Opened_square_br,
-    After_colon, Hat
+    After_colon, Hat,             Dollar,
+    Id_begin,    Id_body
 };
 
 /*
@@ -66,19 +67,25 @@ std::pair<bool, size_t> knuth_find(I it_begin, I it_end, K key)
 }
 
 static const Segment_with_value<char32_t, uint64_t> categories_table[] = {
-    {{U'b'   , U'b'   },  64   },  {{U'['   , U'['   },  48   },  
-    {{U'o'   , U'o'   },  64   },  {{U'('   , U'+'   },  20   },  
-    {{U']'   , U']'   },  16   },  {{U'l'   , U'l'   },  64   },  
-    {{U'x'   , U'x'   },  64   },  {{U'\"'  , U'\"'  },  16   },  
-    {{U'L'   , U'L'   },  64   },  {{U'\\'  , U'\\'  },  24   },  
-    {{U'^'   , U'^'   },  144  },  {{U'd'   , U'd'   },  64   },  
-    {{U'n'   , U'n'   },  80   },  {{U'r'   , U'r'   },  64   },  
-    {{U'{'   , U'}'   },  20   },  {{U'\x01', U' '   },  1    },  
-    {{U'$'   , U'%'   },  16   },  {{U'\?'  , U'\?'  },  20   },  
-    {{U'R'   , U'R'   },  64   }
+    {{U'_'   , U'_'   },  1536 },  {{U'L'   , U'L'   },  1600 },  
+    {{U'n'   , U'n'   },  1616 },  {{U'('   , U'+'   },  20   },  
+    {{U'['   , U'['   },  48   },  {{U'd'   , U'd'   },  1600 },  
+    {{U's'   , U'w'   },  1536 },  {{U'$'   , U'$'   },  272  },  
+    {{U'\?'  , U'\?'  },  20   },  {{U'R'   , U'R'   },  1600 },  
+    {{U']'   , U']'   },  16   },  {{U'b'   , U'b'   },  1600 },  
+    {{U'l'   , U'l'   },  1600 },  {{U'p'   , U'q'   },  1536 },  
+    {{U'y'   , U'z'   },  1536 },  {{U'\"'  , U'\"'  },  16   },  
+    {{U'%'   , U'%'   },  16   },  {{U'0'   , U'9'   },  1024 },  
+    {{U'A'   , U'K'   },  1536 },  {{U'M'   , U'Q'   },  1536 },  
+    {{U'S'   , U'Z'   },  1536 },  {{U'\\'  , U'\\'  },  24   },  
+    {{U'^'   , U'^'   },  144  },  {{U'a'   , U'a'   },  1536 },  
+    {{U'c'   , U'c'   },  1536 },  {{U'e'   , U'k'   },  1536 },  
+    {{U'm'   , U'm'   },  1536 },  {{U'o'   , U'o'   },  1600 },  
+    {{U'r'   , U'r'   },  1600 },  {{U'x'   , U'x'   },  1600 },  
+    {{U'{'   , U'}'   },  20   },  {{U'\x01', U' '   },  1    }
 };
 
-static constexpr size_t num_of_elems_in_categories_table = 19;
+static constexpr size_t num_of_elems_in_categories_table = 32;
 
 uint64_t get_categories_set(char32_t c)
 {
